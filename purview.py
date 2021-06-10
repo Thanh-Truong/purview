@@ -1,6 +1,7 @@
 from pyapacheatlas.auth import ServicePrincipalAuthentication
 from pyapacheatlas.core import PurviewClient, AtlasEntity, AtlasProcess
 import json
+import excel
 
 def get_configuration():
     with open('configs.json') as json_file:
@@ -10,7 +11,7 @@ def build_service_principal():
     with open('auth.json') as json_file:
         data = json.load(json_file)
         auth = ServicePrincipalAuthentication(
-            tenant_id = data["tenant_id"], 
+            tenant_id = data["tenant_id"],
             client_id = data["client_id"], 
             client_secret = data["client_secret"],
             )
@@ -61,7 +62,9 @@ def main():
         account_name = configs["Purview-account-name"],
         authentication = build_service_principal()
     )
-    foo(client=client)
+    entities = excel.parse_excel_file_to_entities()
+    _ = client.upload_entities(entities)
+
 
 if __name__ == "__main__":
     main()
