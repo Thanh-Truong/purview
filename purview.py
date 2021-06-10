@@ -52,7 +52,6 @@ def foo(client):
     results = client.upload_entities(
         batch=[output01, input01, process]
     )
-
     print(json.dumps(results, indent=2))
 
 def main():
@@ -62,9 +61,19 @@ def main():
         account_name = configs["Purview-account-name"],
         authentication = build_service_principal()
     )
-    entities = excel.parse_excel_file_to_entities()
-    _ = client.upload_entities(entities)
-
+    # entities = excel.parse_excel_file_to_entities()
+    # _ = client.upload_entities(entities)
+    glossary = client.get_glossary(name="Glossary", guid=None, detailed=True)
+    # client.upload_terms()
+    try:
+        termInfos = glossary["termInfo"]
+        print(json.dumps(termInfos, indent=2))
+        
+        results = client.import_terms(csv_path='terms.csv', glossary_name="Glossary", glossary_guid=None)
+        print(json.dumps(results, indent=2))
+    except KeyError:
+        print("Your default glossary appears to be empty.")
+        exit(3)
 
 if __name__ == "__main__":
     main()

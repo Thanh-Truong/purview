@@ -2,7 +2,7 @@ from pyapacheatlas.readers import ExcelConfiguration,ExcelReader
 import json
 import os
 
-def get_configuration():
+def __get_configuration():
     with open('configs.json') as json_file:
         return json.load(json_file)
 
@@ -11,7 +11,7 @@ def make_excel_template(excel_file):
         ExcelReader.make_template(excel_file)
 
 def parse_excel_file_to_entities():
-    configs = get_configuration()
+    configs = __get_configuration()
     excel_file = configs["Purview-Excel-file"]
     
     # setup
