@@ -50,3 +50,4 @@ def main():
 
 if __name__ == "__main__":
     account.create_purview()
+    account.assign_roles()

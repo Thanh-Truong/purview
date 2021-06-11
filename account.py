@@ -1,4 +1,5 @@
-from azure.identity import ClientSecretCredential 
+from azure.identity import ClientSecretCredential
+from azure.mgmt import resource 
 from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.purview import PurviewManagementClient
 from azure.mgmt.purview.models import Identity, AccountSku, Account
@@ -16,7 +17,27 @@ def __make_purview_client__():
         return PurviewManagementClient(credential, subscription_id=auth['subscription_id'])
 
 def assign_roles():
-    pass
+    with open('auth.json') as json_file:
+        auth = json.load(json_file)
+    with open('configs.json') as json_file:
+        configs = json.load(json_file)
+
+    cmd_parameters = ["az role assignment create --assignee '{group}'".format(group=auth['Yggdrasil-Data-Platform-Developers']),
+        "--role '{role}'",
+        "--resource-group '{resource_group}'".format(resource_group=configs['Resource-group'])]
+    cmd_template = " ".join(cmd_parameters)
+
+    roles = ['Purview Data Curator', 'Purview Data Reader', 'Purview Data Source Administrator']
+    for role in roles:
+        print('Assigning {role} to {group}'.format(role=role, group=auth['Yggdrasil-Data-Platform-Developers']))
+        cmd = cmd_template.format(role=role)
+        import os
+        stream = os.popen(cmd)
+        output = stream.readlines()
+        print(output)
+        time.sleep(5)
+    
+
 
 def create_purview():
     purview_client = __make_purview_client__()
