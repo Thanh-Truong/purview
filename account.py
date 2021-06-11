@@ -19,12 +19,10 @@ def __make_purview_client__():
 def assign_roles():
     with open('auth.json') as json_file:
         auth = json.load(json_file)
-    with open('configs.json') as json_file:
-        configs = json.load(json_file)
 
     cmd_parameters = ["az role assignment create --assignee '{group}'".format(group=auth['Yggdrasil-Data-Platform-Developers']),
         "--role '{role}'",
-        "--resource-group '{resource_group}'".format(resource_group=configs['Resource-group'])]
+        "--subscription '{resource_group}'".format(resource_group=auth['subscription_id'])]
     cmd_template = " ".join(cmd_parameters)
 
     roles = ['Purview Data Curator', 'Purview Data Reader', 'Purview Data Source Administrator']
@@ -71,8 +69,13 @@ def create_purview():
             else:
                 ValueError("Unhandled status")
 
-def delete_purview(subscription_id, rg_name, purview_name):
+def delete_purview():
     purview_client = __make_purview_client__()
+    with open('configs.json') as json_file:
+        configs = json.load(json_file)
+
+    rg_name = configs['Resource-group']
+    purview_name = configs['Purview-account-name']
     try:
         pa = purview_client.accounts.begin_delete(rg_name, purview_name).result()
         print(pa)

@@ -49,5 +49,6 @@ def main():
 
 
 if __name__ == "__main__":
-    account.create_purview()
-    account.assign_roles()
+    # account.create_purview()
+    #account.assign_roles()
+    account.delete_purview()
