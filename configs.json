@@ -1,6 +1,6 @@
 {
     "Resource-group": "rg_yggdrasil_purview",
     "location" : "eastus",
-    "Purview-account-name": "YggdrasilPurviewCreatedByScript2",
+    "Purview-account-name": "YggdrasilPurviewCreatedByScript1",
     "Purview-Excel-file": "purview.xlsx"
 }

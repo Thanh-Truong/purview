@@ -1,8 +1,12 @@
 from pyapacheatlas.auth import ServicePrincipalAuthentication
-from pyapacheatlas.core import PurviewClient, AtlasEntity, AtlasProcess
+from pyapacheatlas.core import AtlasEntity, AtlasProcess
 import json
+import argparse
+
+from pyapacheatlas.core.client import PurviewClient
 import excel
 import account
+from purview_client import ExtendedPurviewClient
 
 def get_configuration():
     with open('configs.json') as json_file:
@@ -32,23 +36,38 @@ def list_glossary_terms(client):
         exit(3)
 
 def main():
+    parser = argparse.ArgumentParser(description='Interaction with Purview')
+    parser.add_argument("--create-purview", action='store_true')
+    parser.add_argument("--delete-purview", action='store_true')
+    parser.add_argument("--list-glossary-terms", action='store_true')
+    parser.add_argument("--upload-entities", action='store_true')
+    parser.add_argument("--import-terms", action='store_true')
+    args = parser.parse_args()
+
     configs = get_configuration()
     # Create a client to connect to your service.
-    client = PurviewClient(
+    client = ExtendedPurviewClient(
         account_name = configs["Purview-account-name"],
         authentication = build_service_principal()
     )
-
-    upload_entities(client)
-    termInfos = list_glossary_terms(client)
-    print(json.dumps(termInfos, indent=2))
+    if args.create_purview:
+        account.create_purview()
+        account.assign_roles()
     
-    results = client.import_terms(csv_path='terms.csv', glossary_name="Glossary", glossary_guid=None)
-    print(json.dumps(results, indent=2))
-    #account.
+    if args.delete_purview:
+        account.delete_purview()
+
+    if args.upload_entities:
+        upload_entities(client)
+    
+    if args.list_glossary_terms:
+        termInfos = list_glossary_terms(client)
+        print(json.dumps(termInfos, indent=2))
+    
+    if args.import_terms:
+        results = client.import_terms(csv_path='terms.csv', glossary_name="Glossary", glossary_guid=None)
+        print(json.dumps(results, indent=2))
 
 
 if __name__ == "__main__":
-    # account.create_purview()
-    #account.assign_roles()
-    account.delete_purview()
+    main()
