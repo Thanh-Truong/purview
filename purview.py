@@ -42,6 +42,7 @@ def main():
     parser.add_argument("--list-glossary-terms", action='store_true')
     parser.add_argument("--upload-entities", action='store_true')
     parser.add_argument("--import-terms", action='store_true')
+    parser.add_argument("--delete-term", help="Delete a term from the default Glossary")
     args = parser.parse_args()
 
     configs = get_configuration()
@@ -68,6 +69,9 @@ def main():
         results = client.import_terms(csv_path='terms.csv', glossary_name="Glossary", glossary_guid=None)
         print(json.dumps(results, indent=2))
 
+    if args.delete_term:
+        res = client.delete_glossary_term(args.delete_term)
+        print(json.dumps(res, indent=2))
 
 if __name__ == "__main__":
     main()
