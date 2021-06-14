@@ -60,3 +60,24 @@ class ExtendedPurviewClient(PurviewClient):
         for termguid in termguids:
             self.delete_glossary_term(termguid)
             time.sleep(3)
+
+    def get_all_term_templates(self):
+        atlas_endpoint = self.endpoint_url + "/types/typedefs"
+        # TODO: Implement paging with offset and limit
+        getResult = requests.get(
+            atlas_endpoint,
+            params={"type": "term_template"},
+            headers=self.authentication.get_authentication_headers()
+        )
+        return self._handle_response(getResult)
+
+    def import_term_templates(self, term_templates):
+        atlas_endpoint = self.endpoint_url + "/types/typedefs"
+        # TODO: Implement paging with offset and limit
+        import json
+        getResult = requests.post(
+            atlas_endpoint,
+            data=json.dumps(term_templates),
+            headers=self.authentication.get_authentication_headers()
+        )
+        return self._handle_response(getResult)

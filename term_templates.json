@@ -1,0 +1,87 @@
+{
+    "termTemplateDefs": [
+        {
+            "category": "TERM_TEMPLATE",
+            "version": 1,
+            "name": "TermTemplate1",
+            "description": "TermTemplate1",
+            "typeVersion": "1.0",
+            "attributeDefs": [
+                {
+                    "name": "Foo",
+                    "typeName": "string",
+                    "isOptional": false,
+                    "cardinality": "SINGLE",
+                    "valuesMinCount": 1,
+                    "valuesMaxCount": 1,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "includeInNotification": false,
+                    "options": {
+                        "isDisabled": "false"
+                    }
+                }
+            ]
+        },
+        {
+            "category": "TERM_TEMPLATE",
+            "version": 1,
+            "name": "TermTemplate2",
+            "description": "TermTemplate2",
+            "typeVersion": "1.0",
+            "attributeDefs": [
+                {
+                    "name": "Bar",
+                    "typeName": "string",
+                    "isOptional": false,
+                    "cardinality": "SINGLE",
+                    "valuesMinCount": 1,
+                    "valuesMaxCount": 1,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "includeInNotification": false,
+                    "options": {
+                        "isDisabled": "false"
+                    }
+                }
+            ]
+        },
+        {
+            "category": "TERM_TEMPLATE",
+            "version": 1,
+            "name": "TermTemplate3",
+            "description": "TermTemplate3",
+            "typeVersion": "1.0",
+            "attributeDefs": [
+                {
+                    "name": "Humpty",
+                    "typeName": "string",
+                    "isOptional": false,
+                    "cardinality": "SINGLE",
+                    "valuesMinCount": 1,
+                    "valuesMaxCount": 1,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "includeInNotification": false,
+                    "options": {
+                        "isDisabled": "false"
+                    }
+                },
+                {
+                    "name": "Dumpty",
+                    "typeName": "string",
+                    "isOptional": false,
+                    "cardinality": "SINGLE",
+                    "valuesMinCount": 1,
+                    "valuesMaxCount": 1,
+                    "isUnique": false,
+                    "isIndexable": false,
+                    "includeInNotification": false,
+                    "options": {
+                        "isDisabled": "false"
+                    }
+                }
+            ]
+        }
+    ]
+}

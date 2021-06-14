@@ -43,12 +43,16 @@ def build_all_terms_guid(client):
 def main():
     parser = argparse.ArgumentParser(description='Interaction with Purview')
     parser.add_argument("--create-purview", action='store_true')
+    parser.add_argument("--assign-roles", action='store_true')
     parser.add_argument("--delete-purview", action='store_true')
     parser.add_argument("--list-terms", action='store_true')
     parser.add_argument("--upload-entities", action='store_true')
-    parser.add_argument("--import-terms", action='store_true')
+    parser.add_argument("--import-terms")
     parser.add_argument("--delete-term", help="Delete a term from the default Glossary")
     parser.add_argument("--delete-all-terms", action="store_true", help="Delete all terms from the default Glossary")
+    parser.add_argument("--list-term-templates", action="store_true", help="List all term templates from the default Glossary")
+    parser.add_argument("--import-term-templates", help="Import term templates from a file to the default Glossary")
+    
     args = parser.parse_args()
 
     configs = get_configuration()
@@ -61,6 +65,9 @@ def main():
         account.create_purview()
         account.assign_roles()
     
+    if args.assign_roles:
+        account.assign_roles()
+
     if args.delete_purview:
         account.delete_purview()
 
@@ -72,7 +79,7 @@ def main():
         print(json.dumps(termInfos, indent=2))
     
     if args.import_terms:
-        results = client.import_terms(csv_path='terms.csv', glossary_name="Glossary", glossary_guid=None)
+        results = client.import_terms(csv_path=args.import_terms, glossary_name="Glossary", glossary_guid=None)
         print(json.dumps(results, indent=2))
 
     if args.delete_term:
@@ -82,7 +89,15 @@ def main():
     if args.delete_all_terms:
         term_guids = build_all_terms_guid(client)
         client.delete_all_terms(term_guids)
-        
-        
+    
+    if args.list_term_templates:
+        res = client.get_all_term_templates()
+        print(json.dumps(res, indent=2))
+    
+    if args.import_term_templates:
+        with open(args.import_term_templates) as file:
+            res = client.import_term_templates(json.load(file))
+            print(json.dumps(res, indent=2))
+
 if __name__ == "__main__":
     main()
