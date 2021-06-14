@@ -1,3 +1,4 @@
+from os import times
 from pyapacheatlas.auth import ServicePrincipalAuthentication
 from pyapacheatlas.core import AtlasEntity, AtlasProcess
 import json
@@ -35,14 +36,19 @@ def list_glossary_terms(client):
         print("Your default glossary appears to be empty.")
         exit(3)
 
+def build_all_terms_guid(client):
+    termsInfo = list_glossary_terms(client)
+    return [i for i in termsInfo]
+
 def main():
     parser = argparse.ArgumentParser(description='Interaction with Purview')
     parser.add_argument("--create-purview", action='store_true')
     parser.add_argument("--delete-purview", action='store_true')
-    parser.add_argument("--list-glossary-terms", action='store_true')
+    parser.add_argument("--list-terms", action='store_true')
     parser.add_argument("--upload-entities", action='store_true')
     parser.add_argument("--import-terms", action='store_true')
     parser.add_argument("--delete-term", help="Delete a term from the default Glossary")
+    parser.add_argument("--delete-all-terms", action="store_true", help="Delete all terms from the default Glossary")
     args = parser.parse_args()
 
     configs = get_configuration()
@@ -61,7 +67,7 @@ def main():
     if args.upload_entities:
         upload_entities(client)
     
-    if args.list_glossary_terms:
+    if args.list_terms:
         termInfos = list_glossary_terms(client)
         print(json.dumps(termInfos, indent=2))
     
@@ -73,5 +79,10 @@ def main():
         res = client.delete_glossary_term(args.delete_term)
         print(json.dumps(res, indent=2))
 
+    if args.delete_all_terms:
+        term_guids = build_all_terms_guid(client)
+        client.delete_all_terms(term_guids)
+        
+        
 if __name__ == "__main__":
     main()

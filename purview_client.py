@@ -1,6 +1,6 @@
 from pyapacheatlas.core import PurviewClient, AtlasException
 import requests
-
+import time
 class ExtendedPurviewClient(PurviewClient):
     """
     Provides communication between your application and the Azure Purview
@@ -44,3 +44,19 @@ class ExtendedPurviewClient(PurviewClient):
                 raise AtlasException(delete_response.text)
             else:
                 raise requests.RequestException(delete_response.text)
+
+    def delete_all_terms(self, termguids):
+        """
+        Delete one or many termguid from your Apache Atlas server.
+
+        :param termguids: List of termguid you want to remove.
+        :type termguids: Union(str,list(str))
+        :return:
+            204 No Content OK. If glossary term delete was successful.
+            404 Not Found
+            If glossary term guid in invalid.
+        :rtype: int
+        """
+        for termguid in termguids:
+            self.delete_glossary_term(termguid)
+            time.sleep(3)
