@@ -81,3 +81,22 @@ class ExtendedPurviewClient(PurviewClient):
             headers=self.authentication.get_authentication_headers()
         )
         return self._handle_response(getResult)
+    
+    def delete_term_templates(self, term_templates):
+        atlas_endpoint = self.endpoint_url + "/types/typedefs"
+        # TODO: Implement paging with offset and limit
+        import json
+        delete_response = requests.delete(
+            atlas_endpoint,
+            data=json.dumps(term_templates),
+            headers=self.authentication.get_authentication_headers()
+        )
+        self.export_terms
+        try:
+            delete_response.raise_for_status()
+            return delete_response.status_code
+        except requests.RequestException:
+            if "errorCode" in delete_response:
+                raise AtlasException(delete_response.text)
+            else:
+                raise requests.RequestException(delete_response.text)

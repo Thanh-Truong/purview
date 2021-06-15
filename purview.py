@@ -52,7 +52,7 @@ def main():
     parser.add_argument("--delete-all-terms", action="store_true", help="Delete all terms from the default Glossary")
     parser.add_argument("--list-term-templates", action="store_true", help="List all term templates from the default Glossary")
     parser.add_argument("--import-term-templates", help="Import term templates from a file to the default Glossary")
-    
+    parser.add_argument("--delete-term-templates", help="Delete all templates from a file from the default Glossary")
     args = parser.parse_args()
 
     configs = get_configuration()
@@ -98,6 +98,10 @@ def main():
         with open(args.import_term_templates) as file:
             res = client.import_term_templates(json.load(file))
             print(json.dumps(res, indent=2))
-
+    if args.delete_term_templates:
+        with open(args.delete_term_templates) as file:
+            res = client.delete_term_templates(json.load(file))
+            print(json.dumps(res, indent=2))
+    
 if __name__ == "__main__":
     main()
