@@ -91,7 +91,6 @@ class ExtendedPurviewClient(PurviewClient):
             data=json.dumps(term_templates),
             headers=self.authentication.get_authentication_headers()
         )
-        self.export_terms
         try:
             delete_response.raise_for_status()
             return delete_response.status_code
