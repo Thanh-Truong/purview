@@ -45,6 +45,7 @@ def main():
     parser.add_argument("--create-purview", action='store_true')
     parser.add_argument("--assign-roles", action='store_true')
     parser.add_argument("--delete-purview", action='store_true')
+    parser.add_argument("--create-glossary", help="Create a glossary with name")
     parser.add_argument("--list-terms", action='store_true')
     parser.add_argument("--upload-entities", action='store_true')
     parser.add_argument("--import-terms")
@@ -103,5 +104,9 @@ def main():
             res = client.delete_term_templates(json.load(file))
             print(json.dumps(res, indent=2))
     
+    if args.create_glossary:
+        res = client.create_glossary(args.create_glossary)
+        print(json.dumps(res, indent=2))
+
 if __name__ == "__main__":
     main()

@@ -99,3 +99,15 @@ class ExtendedPurviewClient(PurviewClient):
                 raise AtlasException(delete_response.text)
             else:
                 raise requests.RequestException(delete_response.text)
+    
+    def create_glossary(self, name):
+        atlas_endpoint = self.endpoint_url + "/glossary"
+        import json
+        res = requests.post(
+            atlas_endpoint,
+            data=json.dumps(
+                {"qualifiedName": name, "name": name,
+                "terms": []}),
+            headers=self.authentication.get_authentication_headers()
+        )
+        return self._handle_response(res)
