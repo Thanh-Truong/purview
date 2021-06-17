@@ -24,7 +24,7 @@ The content of `configs.json` looks like
 }
 ```
 # Usage:
-
+```
 purview.py [-h] [--create-purview] [--assign-roles] [--delete-purview] [--create-glossary CREATE_GLOSSARY] [--list-terms] [--upload-entities]
                   [--import-terms IMPORT_TERMS] [--delete-term DELETE_TERM] [--delete-all-terms] [--list-term-templates]
                   [--import-term-templates IMPORT_TERM_TEMPLATES] [--delete-term-templates DELETE_TERM_TEMPLATES]
@@ -50,3 +50,4 @@ optional arguments:
                         Import term templates from a file to the default Glossary
   --delete-term-templates DELETE_TERM_TEMPLATES
                         Delete all templates from a file from the default Glossary
+```
