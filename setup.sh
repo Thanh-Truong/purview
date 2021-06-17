@@ -1,5 +1,5 @@
 # /bin/bash
-git clone git@github.com:Thanh-Truong/purview.git
+# git clone git@github.com:Thanh-Truong/purview.git
 # Install env
 python3 -m venv env
 source env/bin/activate
