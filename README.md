@@ -1,8 +1,9 @@
-* Introduction
+# Introduction
 This is a HTTP client to [Purview](https://azure.microsoft.com/sv-se/services/purview/) as the complemntary of Python [wrapper](https://github.com/wjohnson/pyapacheatlas) for Appache Atlas.
 
-* Authentication
+# Authentication
 
+Create a file named as `auth.json` in the same directory 
 {
     "tenant_id": "Tentant id where Purview accounts are provisioned under", 
     "client_id": "Client id of a service principal which is used to run the program", 
@@ -11,9 +12,16 @@ This is a HTTP client to [Purview](https://azure.microsoft.com/sv-se/services/pu
     "Groups id": "Id of group(s) who interactively work with Purview"
 }
 
-* Configurations:
+# Configurations:
 
-* Usage:
+The content of `configs.json` looks like
+{
+    "Resource-group": "Resource group name",
+    "location" : "location",
+    "Purview-account-name": "Name of Purview account"
+}
+
+# Usage:
 
 purview.py [-h] [--create-purview] [--assign-roles] [--delete-purview] [--create-glossary CREATE_GLOSSARY] [--list-terms] [--upload-entities]
                   [--import-terms IMPORT_TERMS] [--delete-term DELETE_TERM] [--delete-all-terms] [--list-term-templates]
