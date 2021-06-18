@@ -28,5 +28,6 @@ setuptools.setup(
         'console_scripts': [
             'purview = pvclient.purview:main'
         ],
-    }
+    },
+    python_requires=">=3.6"
 )
