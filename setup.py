@@ -17,7 +17,6 @@ setuptools.setup(
     author='Thanh Truong',
     author_email='tcthanh@gmail.com',
     license='MIT',
-    packages=setuptools.find_packages(),
     install_requires = ['pyapacheatlas==0.6.0','azure-identity==1.6.0','azure-mgmt-resource==18.0.0','azure-mgmt-purview==1.0.0b1'],
     classifiers=[
         "Programming Language :: Python :: 3",
