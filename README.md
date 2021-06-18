@@ -3,7 +3,8 @@ This is a HTTP client to [Purview](https://azure.microsoft.com/sv-se/services/pu
 
 # Authentication
 
-Create a file named as `auth.json` in the same directory 
+Create a file named as `auth.json` in the same directory
+```
 {
     "tenant_id": "Tentant id where Purview accounts are provisioned under", 
     "client_id": "Client id of a service principal which is used to run the program", 
@@ -11,18 +12,19 @@ Create a file named as `auth.json` in the same directory
     "subscription_id":"Subscription id where Purview accounts are provisioned under",
     "Groups id": "Id of group(s) who interactively work with Purview"
 }
-
+```
 # Configurations:
 
 The content of `configs.json` looks like
+```
 {
     "Resource-group": "Resource group name",
     "location" : "location",
     "Purview-account-name": "Name of Purview account"
 }
-
+```
 # Usage:
-
+```
 purview.py [-h] [--create-purview] [--assign-roles] [--delete-purview] [--create-glossary CREATE_GLOSSARY] [--list-terms] [--upload-entities]
                   [--import-terms IMPORT_TERMS] [--delete-term DELETE_TERM] [--delete-all-terms] [--list-term-templates]
                   [--import-term-templates IMPORT_TERM_TEMPLATES] [--delete-term-templates DELETE_TERM_TEMPLATES]
@@ -48,3 +50,4 @@ optional arguments:
                         Import term templates from a file to the default Glossary
   --delete-term-templates DELETE_TERM_TEMPLATES
                         Delete all templates from a file from the default Glossary
+```
