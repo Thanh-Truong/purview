@@ -1,6 +1,21 @@
 # Introduction
 This is a HTTP client to [Purview](https://azure.microsoft.com/sv-se/services/purview/) as the complemntary of Python [wrapper](https://github.com/wjohnson/pyapacheatlas) for Appache Atlas.
 
+# Installation
+
+* Create a virtual environment
+
+```
+python3 -m venv env
+```
+* Activate the environment
+```
+source env/bin/activate
+```
+* Install the package
+```
+pip install -i https://test.pypi.org/simple/ pvclient
+```
 # Authentication
 
 Create a file named as `auth.json` in the same directory
@@ -25,7 +40,7 @@ The content of `configs.json` looks like
 ```
 # Usage:
 ```
-purview.py [-h] [--create-purview] [--assign-roles] [--delete-purview] [--create-glossary CREATE_GLOSSARY] [--list-terms] [--upload-entities]
+purview [-h] [--create-purview] [--assign-roles] [--delete-purview] [--create-glossary CREATE_GLOSSARY] [--list-terms] [--upload-entities]
                   [--import-terms IMPORT_TERMS] [--delete-term DELETE_TERM] [--delete-all-terms] [--list-term-templates]
                   [--import-term-templates IMPORT_TERM_TEMPLATES] [--delete-term-templates DELETE_TERM_TEMPLATES]
 
