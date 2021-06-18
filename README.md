@@ -3,19 +3,11 @@ This is a HTTP client to [Purview](https://azure.microsoft.com/sv-se/services/pu
 
 # Installation
 
-* Create a virtual environment
-
-```
-python3 -m venv env
-```
-* Activate the environment
-```
-source env/bin/activate
-```
-* Install the package
+Install the package
 ```
 pip install -i https://test.pypi.org/simple/ pvclient
 ```
+
 # Authentication
 
 Create a file named as `auth.json` in the same directory
