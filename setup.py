@@ -1,6 +1,6 @@
 import setuptools
 from os import path
-from pvclient import __version__
+from src.pvclient import __version__
 
 # Read the contents of README.md
 this_directory = path.abspath(path.dirname(__file__))
