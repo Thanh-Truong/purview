@@ -27,7 +27,7 @@ def assign_roles():
 
     roles = ['Purview Data Curator', 'Purview Data Reader', 'Purview Data Source Administrator']
     for role in roles:
-        print('Assigning {role} to {group}'.format(role=role, group=auth['Yggdrasil-Data-Platform-Developers']))
+        print('Assigning {role} to {group}'.format(role=role, group=auth['InteractiveGroups']))
         cmd = cmd_template.format(role=role)
         import os
         stream = os.popen(cmd)

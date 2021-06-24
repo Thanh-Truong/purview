@@ -17,7 +17,7 @@ Create a file named as `auth.json` in the same directory
     "client_id": "Client id of a service principal which is used to run the program", 
     "client_secret": "Client secret of a service principal which is used to run the program",
     "subscription_id":"Subscription id where Purview accounts are provisioned under",
-    "Groups id": "Id of group(s) who interactively work with Purview"
+    "InteractiveGroups": "Id of group(s) who interactively logs into Purview"
 }
 ```
 # Configurations:
