@@ -42,6 +42,7 @@ def build_all_terms_guid(client):
 
 def main():
     parser = argparse.ArgumentParser(description='Interaction with Purview')
+    parser.add_argument("--version", action='store_true', help="Version of purview command-line")
     parser.add_argument("--create-purview", action='store_true')
     parser.add_argument("--assign-roles", action='store_true')
     parser.add_argument("--delete-purview", action='store_true')
@@ -56,12 +57,18 @@ def main():
     parser.add_argument("--delete-term-templates", help="Delete all templates from a file from the default Glossary")
     args = parser.parse_args()
 
+    if args.version:
+        from pvclient import __version__
+        print("Purview version {}".format(__version__))
+        exit(0)
+
     configs = get_configuration()
     # Create a client to connect to your service.
     client = ExtendedPurviewClient(
         account_name = configs["Purview-account-name"],
         authentication = build_service_principal()
     )
+
     if args.create_purview:
         account.create_purview()
         account.assign_roles()
@@ -107,6 +114,7 @@ def main():
     if args.create_glossary:
         res = client.create_glossary(args.create_glossary)
         print(json.dumps(res, indent=2))
+
 
 if __name__ == "__main__":
     main()
