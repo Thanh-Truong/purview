@@ -1,7 +1,7 @@
 import setuptools
 from os import path
+from src import __version__
 
-__version__ = "0.0.6"
 # Read the contents of README.md
 this_directory = path.abspath(path.dirname(__file__))
 with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
@@ -25,10 +25,9 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'purview = pvclient.purview:main'
+            'purview = src.pvclient.purview:main'
         ],
     },
-    package_dir={"pvclient": "src"},
-    packages=setuptools.find_packages(where="src"),
+    packages=setuptools.find_packages(),
     python_requires=">=3.6"
 )
