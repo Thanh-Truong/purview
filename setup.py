@@ -1,6 +1,6 @@
 import setuptools
 from os import path
-from src import __version__
+from pvclient import __version__
 
 # Read the contents of README.md
 this_directory = path.abspath(path.dirname(__file__))
@@ -18,6 +18,7 @@ setuptools.setup(
     author_email='tcthanh@gmail.com',
     license='MIT',
     install_requires = ['pyapacheatlas==0.6.0','azure-identity==1.6.0','azure-mgmt-resource==18.0.0','azure-mgmt-purview==1.0.0b1'],
+    packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
@@ -25,9 +26,8 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'purview = src.pvclient.purview:main'
+            'purview = pvclient.client.main:main'
         ],
     },
-    packages=setuptools.find_packages(),
     python_requires=">=3.6"
 )
