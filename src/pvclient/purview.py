@@ -5,9 +5,9 @@ import json
 import argparse
 
 from pyapacheatlas.core.client import PurviewClient
-from pvclient import excel
-from pvclient import account
-from pvclient.purview_client import ExtendedPurviewClient
+import excel
+import account
+from purview_client import ExtendedPurviewClient
 
 def get_configuration():
     with open('configs.json') as json_file:
