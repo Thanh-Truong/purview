@@ -2,16 +2,13 @@ from os import times
 from pyapacheatlas.auth import ServicePrincipalAuthentication
 from pyapacheatlas.core import AtlasEntity, AtlasProcess
 import json
+import os
 import argparse
 
 from pyapacheatlas.core.client import PurviewClient
 from pvclient.utils import excel
 from pvclient.utils import account
 from pvclient.client.purview_client import ExtendedPurviewClient
-
-def get_configuration():
-    with open('configs.json') as json_file:
-        return json.load(json_file)
 
 def build_service_principal():
     import os
@@ -67,10 +64,9 @@ def main():
         print("Purview version {}".format(__version__))
         exit(0)
     check_env_variables()
-    configs = get_configuration()
     # Create a client to connect to your service.
     client = ExtendedPurviewClient(
-        account_name = configs["Purview-account-name"],
+        account_name = os.getenv('PURVIEW_ACCOUNT_NAME'),
         authentication = build_service_principal()
     )
 
