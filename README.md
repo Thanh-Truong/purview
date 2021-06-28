@@ -10,7 +10,7 @@ pip install -i https://test.pypi.org/simple/ pvclient
 
 # Authentication
 
-Set the following environment variables
+Set the following environment variables:
 * TENANT_ID =<Tentant id where Purview accounts are provisioned under>
 * CLIENT_ID =<Client id of a service principal which is used to run the program>
 * CLIENT_SECRET =<Client secret of a service principal which is used to run the program>
@@ -19,14 +19,11 @@ Set the following environment variables
 
 # Configurations:
 
-The content of `configs.json` looks like
-```
-{
-    "Resource-group": "Resource group name",
-    "location" : "location",
-    "Purview-account-name": "Name of Purview account"
-}
-```
+Set the following environment variables:
+* RESOURCE_GROUP =<Resource group name>
+* LOCATION =<Location>
+* PURVIEW_ACCOUNT_NAME=<Purview account to be created/modified >
+
 # Usage:
 ```
 purview [-h] [--create-purview] [--assign-roles] [--delete-purview] [--create-glossary CREATE_GLOSSARY] [--list-terms] [--upload-entities]

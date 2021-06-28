@@ -5,12 +5,11 @@ from azure.mgmt.purview import PurviewManagementClient
 from azure.mgmt.purview.models import Identity, AccountSku, Account
 from datetime import datetime, timedelta
 import time
-import json
+import os
 
 from pyapacheatlas import auth
 
 def __make_purview_client__():
-    import os
     TENANT_ID = os.getenv('TENANT_ID')
     CLIENT_ID = os.getenv('CLIENT_ID')
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
@@ -40,50 +39,42 @@ def assign_roles():
         output = stream.readlines()
         print(output)
         time.sleep(5)
-    
-
 
 def create_purview():
     purview_client = __make_purview_client__()
-    with open('configs.json') as json_file:
-        configs = json.load(json_file)
-        #Create a purview
-        identity = Identity(type= "SystemAssigned")
-        sku = AccountSku(name= 'Standard', capacity= 4)
-        purview_resource = Account(identity=identity,sku=sku,location =configs['location'])
-        rg_name = configs['Resource-group']
-        purview_name = configs['Purview-account-name']
+    #Create a purview
+    identity = Identity(type= "SystemAssigned")
+    sku = AccountSku(name= 'Standard', capacity= 4)
+    purview_resource = Account(identity=identity,sku=sku,location =os.getenv('LOCATION'))
+    rg_name = os.getenv('RESOURCE_GROUP')
+    purview_name = os.getenv('PURVIEW_ACCOUNT_NAME')
 
-        try:
-            pa = (purview_client.accounts.begin_create_or_update(rg_name, purview_name, purview_resource)).result()
-            print("location:", pa.location, " Purview Account Name: ", purview_name, " Id: " , pa.id ," tags: " , pa.tags) 
-        except:
-            print("Error in submitting job to create account")
-            print(pa)
+    try:
+        pa = (purview_client.accounts.begin_create_or_update(rg_name, purview_name, purview_resource)).result()
+        print("location:", pa.location, " Purview Account Name: ", purview_name, " Id: " , pa.id ," tags: " , pa.tags) 
+    except:
+        print("Error in submitting job to create account")
+        print(pa)
 
-        while (getattr(pa,'provisioning_state')) != "Succeeded" :
-            pa = (purview_client.accounts.get(rg_name, purview_name))
-            status = getattr(pa,'provisioning_state')
-            print(status)
-            if status == "Succeeded":
-                assign_roles()
-                break
-            elif status == "Failed":
-                break
-            elif status == "Creating" or  status == "Updating":
-                time.sleep(30)
-            else:
-                ValueError("Unhandled status")
+    while (getattr(pa,'provisioning_state')) != "Succeeded" :
+        pa = (purview_client.accounts.get(rg_name, purview_name))
+        status = getattr(pa,'provisioning_state')
+        print(status)
+        if status == "Succeeded":
+            assign_roles()
+            break
+        elif status == "Failed":
+            break
+        elif status == "Creating" or  status == "Updating":
+            time.sleep(30)
+        else:
+            ValueError("Unhandled status")
+        
 
 def delete_purview():
     purview_client = __make_purview_client__()
-    with open('configs.json') as json_file:
-        configs = json.load(json_file)
-
-    rg_name = configs['Resource-group']
-    purview_name = configs['Purview-account-name']
     try:
-        pa = purview_client.accounts.begin_delete(rg_name, purview_name).result()
+        pa = purview_client.accounts.begin_delete(os.getenv('RESOURCE_GROUP'), os.getenv('PURVIEW_ACCOUNT_NAME')).result()
         print(pa)
     except:
         print("Error in submitting job to create account")
