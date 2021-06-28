@@ -17,13 +17,11 @@ def build_service_principal():
     import os
     TENANT_ID = os.getenv('TENANT_ID')
     CLIENT_ID = os.getenv('CLIENT_ID')
-    CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+    CLIENT_SECRET = os.getenv('CLIENT_SECRET')  
     return ServicePrincipalAuthentication(
             tenant_id = TENANT_ID,
             client_id = CLIENT_ID,
             client_secret = CLIENT_SECRET)
-        
-        
 
 def upload_entities(client):
     entities = excel.parse_excel_file_to_entities()
@@ -42,6 +40,11 @@ def build_all_terms_guid(client):
     termsInfo = list_glossary_terms(client)
     return [i for i in termsInfo]
 
+def check_env_variables():
+    import os
+    if None in [os.getenv('TENANT_ID'), os.getenv('CLIENT_ID'), os.getenv('CLIENT_SECRET'), os.getenv('SUBSCRIPTION_ID')]:
+        raise ValueError("Missing environment variables. Please refer to https://pypi.org/project/pvclient/")
+        exit(1)
 def main():
     parser = argparse.ArgumentParser(description='Interaction with Purview')
     parser.add_argument("--version", action='store_true', help="Version of purview command-line")
@@ -63,7 +66,7 @@ def main():
         from pvclient import __version__
         print("Purview version {}".format(__version__))
         exit(0)
-
+    check_env_variables()
     configs = get_configuration()
     # Create a client to connect to your service.
     client = ExtendedPurviewClient(

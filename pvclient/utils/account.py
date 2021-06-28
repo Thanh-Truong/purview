@@ -14,23 +14,25 @@ def __make_purview_client__():
     TENANT_ID = os.getenv('TENANT_ID')
     CLIENT_ID = os.getenv('CLIENT_ID')
     CLIENT_SECRET = os.getenv('CLIENT_SECRET')
-    SUBCRIPTION_ID = os.getenv('SUBSCRIPTION_ID')
+    SUBSCRIPTION_ID = os.getenv('SUBSCRIPTION_ID')
     credential = ClientSecretCredential(
         client_id=CLIENT_ID,
         client_secret=CLIENT_SECRET, 
         tenant_id=TENANT_ID)
-    return PurviewManagementClient(credential, subscription_id=SUBCRIPTION_ID)
+    return PurviewManagementClient(credential, subscription_id=SUBSCRIPTION_ID)
         
 
 def assign_roles():
+    import os
+    SUBSCRIPTION_ID = os.getenv('SUBSCRIPTION_ID')
+    INTERACTIVEGROUPS = os.getenv('INTERACTIVEGROUPS')
     cmd_parameters = ["az role assignment create --assignee '{group}'".format(group=auth['Yggdrasil-Data-Platform-Developers']),
         "--role '{role}'",
-        "--subscription '{resource_group}'".format(resource_group=auth['subscription_id'])]
+        "--subscription '{resource_group}'".format(resource_group=SUBSCRIPTION_ID)]
     cmd_template = " ".join(cmd_parameters)
 
     roles = ['Purview Data Curator', 'Purview Data Reader', 'Purview Data Source Administrator']
-    import os
-    INTERACTIVEGROUPS = os.getenv('INTERACTIVEGROUPS')
+    
     for role in roles:
         print('Assigning {role} to {group}'.format(role=role, group=INTERACTIVEGROUPS))
         cmd = cmd_template.format(role=role)
