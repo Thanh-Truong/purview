@@ -1,5 +1,0 @@
-{
-    "Resource-group": "rg_yggdrasil_purview",
-    "location" : "eastus",
-    "Purview-account-name": "YggdrasilPurviewCreatedByScript3"
-}
