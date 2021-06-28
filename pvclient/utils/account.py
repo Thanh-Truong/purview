@@ -10,26 +10,30 @@ import json
 from pyapacheatlas import auth
 
 def __make_purview_client__():
-    with open('auth.json') as json_file:
-        auth = json.load(json_file)
-        credential = ClientSecretCredential(client_id=auth['client_id'],
-         client_secret=auth['client_secret'], tenant_id=auth['tenant_id'])
-        return PurviewManagementClient(credential, subscription_id=auth['subscription_id'])
+    import os
+    TENANT_ID = os.getenv('TENANT_ID')
+    CLIENT_ID = os.getenv('CLIENT_ID')
+    CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+    SUBCRIPTION_ID = os.getenv('SUBSCRIPTION_ID')
+    credential = ClientSecretCredential(
+        client_id=CLIENT_ID,
+        client_secret=CLIENT_SECRET, 
+        tenant_id=TENANT_ID)
+    return PurviewManagementClient(credential, subscription_id=SUBCRIPTION_ID)
+        
 
 def assign_roles():
-    with open('auth.json') as json_file:
-        auth = json.load(json_file)
-
     cmd_parameters = ["az role assignment create --assignee '{group}'".format(group=auth['Yggdrasil-Data-Platform-Developers']),
         "--role '{role}'",
         "--subscription '{resource_group}'".format(resource_group=auth['subscription_id'])]
     cmd_template = " ".join(cmd_parameters)
 
     roles = ['Purview Data Curator', 'Purview Data Reader', 'Purview Data Source Administrator']
+    import os
+    INTERACTIVEGROUPS = os.getenv('INTERACTIVEGROUPS')
     for role in roles:
-        print('Assigning {role} to {group}'.format(role=role, group=auth['InteractiveGroups']))
+        print('Assigning {role} to {group}'.format(role=role, group=INTERACTIVEGROUPS))
         cmd = cmd_template.format(role=role)
-        import os
         stream = os.popen(cmd)
         output = stream.readlines()
         print(output)

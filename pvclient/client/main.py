@@ -14,14 +14,16 @@ def get_configuration():
         return json.load(json_file)
 
 def build_service_principal():
-    with open('auth.json') as json_file:
-        data = json.load(json_file)
-        auth = ServicePrincipalAuthentication(
-            tenant_id = data["tenant_id"],
-            client_id = data["client_id"], 
-            client_secret = data["client_secret"],
-            )
-        return auth
+    import os
+    TENANT_ID = os.getenv('TENANT_ID')
+    CLIENT_ID = os.getenv('CLIENT_ID')
+    CLIENT_SECRET = os.getenv('CLIENT_SECRET')
+    return ServicePrincipalAuthentication(
+            tenant_id = TENANT_ID,
+            client_id = CLIENT_ID,
+            client_secret = CLIENT_SECRET)
+        
+        
 
 def upload_entities(client):
     entities = excel.parse_excel_file_to_entities()

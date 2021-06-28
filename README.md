@@ -10,16 +10,13 @@ pip install -i https://test.pypi.org/simple/ pvclient
 
 # Authentication
 
-Create a file named as `auth.json` in the same directory
-```
-{
-    "tenant_id": "Tentant id where Purview accounts are provisioned under", 
-    "client_id": "Client id of a service principal which is used to run the program", 
-    "client_secret": "Client secret of a service principal which is used to run the program",
-    "subscription_id":"Subscription id where Purview accounts are provisioned under",
-    "InteractiveGroups": "Id of group(s) who interactively logs into Purview"
-}
-```
+Set the following environment variables
+* TENANT_ID = <Tentant id where Purview accounts are provisioned under>
+* CLIENT_ID = <Client id of a service principal which is used to run the program>
+* CLIENT_SECRET = <Client secret of a service principal which is used to run the program>
+* SUBCRIPTION_ID = <Subscription id where Purview accounts are provisioned under>
+* INTERACTIVEGROUPS=<Id of group(s) who interactively logs into Purview>
+
 # Configurations:
 
 The content of `configs.json` looks like
