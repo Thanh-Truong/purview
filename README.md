@@ -7,6 +7,10 @@ Install the package
 ```
 pip install --upgrade pvclient
 ```
+then it will be uninstalled with
+```
+pip uninstall pvclient
+```
 
 # Authentication
 
