@@ -5,7 +5,7 @@ This is a HTTP client to [Purview](https://azure.microsoft.com/sv-se/services/pu
 
 Install the package
 ```
-pip install -i https://test.pypi.org/simple/ pvclient
+pip install --upgrade pvclient
 ```
 
 # Authentication
