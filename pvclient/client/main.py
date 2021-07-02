@@ -42,6 +42,21 @@ def check_env_variables():
     if None in [os.getenv('TENANT_ID'), os.getenv('CLIENT_ID'), os.getenv('CLIENT_SECRET'), os.getenv('SUBSCRIPTION_ID')]:
         raise ValueError("Missing environment variables. Please refer to https://pypi.org/project/pvclient/")
         exit(1)
+
+# def reformat_terms_csv_file(filename):
+#     import csv
+#     with open(filename, mode='r') as csv_file:
+#         line_count = 0
+#         with open("temp.csv", mode='w') as csv_temp_file:
+#             csv_writer = csv.writer(csv_temp_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_ALL)
+#             csv_reader = csv.reader(csv_file, delimiter = ';', skipinitialspace=True)
+#             for row in csv_reader:
+#                 #print(row)
+#                 #line_count += 1
+#                 csv_writer.writerow(row)
+#                 #if line_count == 20:
+#                 #    break
+
 def main():
     parser = argparse.ArgumentParser(description='Interaction with Purview')
     parser.add_argument("--version", action='store_true', help="Version of purview command-line")
@@ -88,6 +103,7 @@ def main():
         print(json.dumps(termInfos, indent=2))
     
     if args.import_terms:
+        #reformat_terms_csv_file(args.import_terms)
         results = client.import_terms(csv_path=args.import_terms, glossary_name="Glossary", glossary_guid=None)
         print(json.dumps(results, indent=2))
 

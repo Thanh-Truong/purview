@@ -1,6 +1,7 @@
 from pyapacheatlas.core import PurviewClient, AtlasException
 import requests
 import time
+import json
 class ExtendedPurviewClient(PurviewClient):
     """
     Provides communication between your application and the Azure Purview
@@ -111,3 +112,72 @@ class ExtendedPurviewClient(PurviewClient):
             headers=self.authentication.get_authentication_headers()
         )
         return self._handle_response(res)
+    
+    def wait_for_operation(self, import_response):
+        operation_id = import_response.get('id')
+        if operation_id:
+            status = 'INIT'
+            results = None
+            while(status in ['INIT', 'RUNNING']):
+                import time
+                time.sleep(3)
+                atlas_endpoint = self.endpoint_url + \
+                    f"/glossary/terms/import/{operation_id}"
+                operation_response = requests.get(
+                    atlas_endpoint,
+                    headers=self.authentication.get_authentication_headers()
+                )
+                results = self._handle_response(operation_response)
+                status = results.get('status')
+
+            return results
+                
+
+    def import_terms(self, csv_path, glossary_name="Glossary", glossary_guid=None):
+        """
+        Bulk import terms from an existing csv file. If you are using the system
+        default, you must include the following headers:
+        Name,Definition,Status,Related Terms,Synonyms,Acronym,Experts,Stewards
+
+        For custom term templates, additional attributes must include
+        [Attribute][termTemplateName]attributeName as the header.
+
+        :param str csv_path: Path to CSV that will be imported.
+        :param str glossary_name:
+            Name of the glossary. Defaults to 'Glossary'. Not used if
+            glossary_guid is provided.
+        :param str glossary_guid:
+            Guid of the glossary, optional if glossary_name is provided.
+            Otherwise, this parameter takes priority over glossary_name.
+
+        :return:
+            A dict that contains an `id` that you can use in
+            `import_terms_status` to get the status of the import operation.
+        :rtype: dict
+        """
+        results = None
+        if glossary_guid:
+            atlas_endpoint = self.endpoint_url + \
+                f"/glossary/{glossary_guid}/terms/import"
+        elif glossary_name:
+            atlas_endpoint = self.endpoint_url + \
+                f"/glossary/name/{glossary_name}/terms/import"
+        else:
+            raise ValueError(
+                "Either glossary_name or glossary_guid must be defined.")
+
+        headers = self.authentication.get_authentication_headers()
+        # Pop the default of application/json so that request can fill in the
+        # multipart/form-data; boundary=xxxx that is automatically generated
+        # when using the files argument.
+        headers.pop("Content-Type")
+
+        postResp = requests.post(
+            atlas_endpoint,
+            params={"includeTermHierarchy": "True"},
+            files={'file': ("file", open(csv_path, 'rb'))},
+            headers=headers
+        )
+
+        import_response = self._handle_response(postResp)
+        return self.wait_for_operation(import_response)
